@@ -184,7 +184,7 @@ define("__ALFA_POST_ENCRYPTION__", (isset($GLOBALS["DB_NAME"]["post_encryption"]
 define("__ALFA_SECRET_KEY__", __ALFA_POST_ENCRYPTION__?_AlfaSecretKey():'');
 $GLOBALS['__ALFA_COLOR__'] = array(
 		"shell_border" => array(
-			"key_color" => "#0B1021",
+			"key_color" => "#0a0e1a",
 			"multi_selector" => array(
 				".header" => "border: 7px solid {color}",
 				"#meunlist" => "border-color: {color}",
@@ -193,316 +193,316 @@ $GLOBALS['__ALFA_COLOR__'] = array(
 				".foot" => "border-color: {color}",
 			)
 		),
-		"header_vars" => "#1E90FF",
-		"header_values" => "#4A9EFF",
-		"header_on" => "#1E90FF",
-		"header_off" => "#FF4444",
-		"header_none" => "#1E90FF",
-		"home_shell" => "#FF4444",
+		"header_vars" => "#00d9ff",
+		"header_values" => "#7dd3fc",
+		"header_on" => "#00ff88",
+		"header_off" => "#ff3366",
+		"header_none" => "#00d9ff",
+		"home_shell" => "#00d9ff",
 		"home_shell:hover" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".home_shell:hover" => "color: {color};",
 			)
 		),
-		"back_shell" => "#4A9EFF",
+		"back_shell" => "#7dd3fc",
 		"back_shell:hover" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".back_shell:hover" => "color: {color};",
 			)
 		),
-		"header_pwd" => "#1E90FF",
+		"header_pwd" => "#00d9ff",
 		"header_pwd:hover" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".header_pwd:hover" => "color: {color};",
 			)
 		),
-		"header_drive" => "#1E90FF",
+		"header_drive" => "#00d9ff",
 		"header_drive:hover" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".header_drive:hover" => "color: {color};",
 			)
 		),
-		"header_show_all" => "#1E90FF",
-		"disable_functions" => "#FF4444",
-		"footer_text" => "#1E90FF",
-		"menu_options" => "#1E90FF",
+		"header_show_all" => "#00d9ff",
+		"disable_functions" => "#ff3366",
+		"footer_text" => "#00d9ff",
+		"menu_options" => "#00d9ff",
 		"menu_options:hover" => array(
-			"key_color" => "#1a1a2e",
+			"key_color" => "#0f172a",
 			"multi_selector" => array(
 				".menu_options:hover" => "background-color: {color};font-weight: unset;",
 			)
 		),
 		"options_list" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				".content_options_holder .header center a" => "color: {color};",
 			)
 		),
 		"options_list:hover" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".content_options_holder .header center a:hover" => "color: {color};",
 			)
 		),
 		"options_list_header" => array(
-			"key_color" => "#4A9EFF",
+			"key_color" => "#7dd3fc",
 			"multi_selector" => array(
 				".txtfont_header" => "color: {color};",
 			)
 		),
 		"options_list_text" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#e2e8f0",
 			"multi_selector" => array(
 				".txtfont,.tbltxt" => "color: {color};",
 			)
 		),
 		"Alfa+" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				".alfa_plus" => "color: {color};font-weight: unset;",
 			)
 		),
 		"hidden_shell_text" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				"#hidden_sh a" => "color: {color};",
 			)
 		),
-		"hidden_shell_version" => "#FF4444",
-		"shell_name" => "#FF0000",
+		"hidden_shell_version" => "#ff3366",
+		"shell_name" => "#ff4444",
 		"main_row:hover" => array(
-			"key_color" => "#1a1a2e",
+			"key_color" => "#0f172a",
 			"multi_selector" => array(
 				".main tr:hover" => "background-color: {color};",
 			)
 		),
 		"main_header" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".main th" => "color: {color};",
 			)
 		),
 		"main_name" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#e2e8f0",
 			"multi_selector" => array(
 				".main .main_name" => "color: {color};font-weight: unset;",
 			)
 		),
-		"main_size" => "#4A9EFF",
-		"main_modify" => "#4A9EFF",
-		"main_owner_group" => "#4A9EFF",
-		"main_green_perm" => "#1E90FF",
-		"main_red_perm" => "#FF0000",
-		"main_white_perm" => "#FFFFFF",
-		"beetween_perms" => "#FFFFFF",
+		"main_size" => "#7dd3fc",
+		"main_modify" => "#7dd3fc",
+		"main_owner_group" => "#7dd3fc",
+		"main_green_perm" => "#00ff88",
+		"main_red_perm" => "#ff3366",
+		"main_white_perm" => "#e2e8f0",
+		"beetween_perms" => "#94a3b8",
 		"main_actions" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".main .actions" => "color: {color};",
 			)
 		),
 		"menu_options:hover" => array(
-			"key_color" => "#1a1a2e",
+			"key_color" => "#0f172a",
 			"multi_selector" => array(
 				".menu_options:hover" => "background-color: {color};font-weight: unset;",
 			)
 		),
 		"minimize_editor_background" => array(
-			"key_color" => "#0e304a",
+			"key_color" => "#0f172a",
 			"multi_selector" => array(
 				".minimized-wrapper" => "background-color: {color};",
 			)
 		),
 		"minimize_editor_text" => array(
-			"key_color" => "#4A9EFF",
+			"key_color" => "#7dd3fc",
 			"multi_selector" => array(
 				".minimized-text" => "color: {color};",
 			)
 		),
 		"editor_border" => array(
-			"key_color" => "#0e304a",
+			"key_color" => "#1e293b",
 			"multi_selector" => array(
 				".editor-explorer,.editor-modal" => "border: 2px solid {color};",
 			)
 		),
 		"editor_background" => array(
-			"key_color" => "rgba(11, 16, 33, 0.98)",
+			"key_color" => "rgba(10, 14, 26, 0.98)",
 			"multi_selector" => array(
 				".editor-explorer,.editor-modal" => "background-color: {color};",
 			)
 		),
 		"editor_header_background" => array(
-			"key_color" => "rgba(18, 24, 50, 0.96)",
+			"key_color" => "rgba(15, 23, 42, 0.96)",
 			"multi_selector" => array(
 				".editor-header" => "background-color: {color};",
 			)
 		),
 		"editor_header_text" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				".editor-path" => "color: {color};",
 			)
 		),
 		"editor_header_button" => array(
-			"key_color" => "#16213E",
+			"key_color" => "#1e293b",
 			"multi_selector" => array(
 				".close-button, .editor-minimize" => "background-color: {color};",
 			)
 		),
 		"editor_actions" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".editor_actions" => "color: {color};",
 			)
 		),
 		"editor_file_info_vars" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#e2e8f0",
 			"multi_selector" => array(
 				".editor_file_info_vars" => "color: {color};",
 			)
 		),
 		"editor_file_info_values" => array(
-			"key_color" => "#4A9EFF",
+			"key_color" => "#7dd3fc",
 			"multi_selector" => array(
 				".filestools" => "color: {color};",
 			)
 		),
 		"editor_history_header" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				".hheader-text,.history-clear" => "color: {color};",
 			)
 		),
 		"editor_history_list" => array(
-			"key_color" => "#4A9EFF",
+			"key_color" => "#7dd3fc",
 			"multi_selector" => array(
 				".editor-file-name" => "color: {color};",
 			)
 		),
 		"editor_history_selected_file" => array(
-			"key_color" => "rgba(30, 60, 120, 0.85)",
+			"key_color" => "rgba(0, 120, 200, 0.85)",
 			"multi_selector" => array(
 				".is_active" => "background-color: {color};",
 			)
 		),
 		"editor_history_file:hover" => array(
-			"key_color" => "#1a1a2e",
+			"key_color" => "#0f172a",
 			"multi_selector" => array(
 				".file-holder > .history:hover" => "background-color: {color};",
 			)
 		),
 		"input_box_border" => array(
-			"key_color" => "#0B1021",
+			"key_color" => "#1e293b",
 			"multi_selector" => array(
 				"input[type=text],textarea" => "border: 1px solid {color}",
 			)
 		),
 		"input_box_text" => array(
-			"key_color" => "#B0B8D0",
+			"key_color" => "#cbd5e1",
 			"multi_selector" => array(
 				"input[type=text],textarea" => "color: {color};",
 			)
 		),
 		"input_box:hover" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				"input[type=text]:hover,textarea:hover" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
 		),
 		"select_box_border" => array(
-			"key_color" => "#0B1021",
+			"key_color" => "#1e293b",
 			"multi_selector" => array(
 				"select" => "border: 1px solid {color}",
 			)
 		),
 		"select_box_text" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				"select" => "color: {color};",
 			)
 		),
 		"select_box:hover" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				"select:hover" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
 		),
 		"button_border" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				"input[type=submit],.button,#addup" => "border: 1px solid {color};",
 			)
 		),
 		"button:hover" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				"input[type=submit]:hover" => "box-shadow:0 0 4px {color};border:2px solid {color};",
 				".button:hover,#addup:hover" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
 		),
 		"outputs_text" => array(
-			"key_color" => "#4A9EFF",
+			"key_color" => "#7dd3fc",
 			"multi_selector" => array(
 				".ml1" => "color: {color};",
 			)
 		),
 		"outputs_border" => array(
-			"key_color" => "#0B1021",
+			"key_color" => "#1e293b",
 			"multi_selector" => array(
 				".ml1" => "border: 1px solid {color};",
 			)
 		),
 		"uploader_border" => array(
-			"key_color" => "#0B1021",
+			"key_color" => "#1e293b",
 			"multi_selector" => array(
 				".inputfile" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
 		),
 		"uploader_background" => array(
-			"key_color" => "#0B1021",
+			"key_color" => "#0f172a",
 			"multi_selector" => array(
 				".inputfile strong" => "background-color: {color};",
 			)
 		),
 		"uploader_text_right" => array(
-			"key_color" => "#FFFFFF",
+			"key_color" => "#ffffff",
 			"multi_selector" => array(
 				".inputfile strong" => "color: {color};",
 			)
 		),
 		"uploader_text_left" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				".inputfile span" => "color: {color};",
 			)
 		),
 		"uploader:hover" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				".inputfile:hover" => "box-shadow:0 0 4px {color};border:1px solid {color};",
 			)
 		),
 		"uploader_progress_bar" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				".up_bar" => "background-color: {color};",
 			)
 		),
-		"mysql_tables" => "#1E90FF",
-		"mysql_table_count" => "#4A9EFF",
-		"copyright" => "#4A9EFF",
+		"mysql_tables" => "#00d9ff",
+		"mysql_table_count" => "#7dd3fc",
+		"copyright" => "#7dd3fc",
 		"scrollbar" => array(
-			"key_color" => "#1E90FF",
+			"key_color" => "#00d9ff",
 			"multi_selector" => array(
 				"*::-webkit-scrollbar-thumb" => "background-color: {color};",
 			)
 		),
 		"scrollbar_background" => array(
-			"key_color" => "#050810",
+			"key_color" => "#020617",
 			"multi_selector" => array(
 				"*::-webkit-scrollbar-track" => "background-color: {color};",
 			)
